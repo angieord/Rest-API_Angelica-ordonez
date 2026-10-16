@@ -1,0 +1,14 @@
+{
+  "name": "inm420-restapi",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "lite-server --baseDir=\"public\""
+  },
+  "author": "Angelica Ordonez",
+  "license": "private",
+  "private": true,
+  "description": "",
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}

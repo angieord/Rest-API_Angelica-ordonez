@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>DailyWeather | Your Daily Forecast</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- stylesheet -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@3.0.0/reset.min.css" />
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- Lucide icons -->
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+
+</head>
+
+<body>
+
+  <div class="weather-app">
+
+    <!-- Animated background clouds -->
+    <div class="cloud-layer" aria-hidden="true">
+      <img src="/assets/images/cloud_loop.png" class="floating-cloud cloud-one" alt="">
+      <img src="/assets/images/cloud_loop.png" class="floating-cloud cloud-two" alt="">
+      <!-- <img src="/assets/images/cloud_loop.png" class="floating-cloud cloud-three" alt=""> -->
+    </div>
+
+    <!-- Website header -->
+    <header class="site-header">
+
+      <a href="#current" class="logo" aria-label="DailyWeather home">
+        <i data-lucide="sun" class="logo-icon"></i>
+        <span>Daily<strong>Weather</strong></span>
+      </a>
+
+      <!-- Mobile navigation button -->
+      <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false"
+        aria-controls="main-nav">
+        <i data-lucide="menu"></i>
+      </button>
+
+      <!-- Main navigation -->
+      <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+        <a href="#current" class="nav-link active">Current</a>
+        <a href="#hourly" class="nav-link">Hourly</a>
+        <a href="#forecast" class="nav-link">Forecast</a>
+      </nav>
+
+      <!-- City search -->
+      <form class="search-form" id="search-form">
+        <i data-lucide="search"></i>
+
+        <input type="search" id="city-input" placeholder="Search a city..." aria-label="Search a city" required>
+
+        <button type="submit" aria-label="Search weather">
+          <i data-lucide="arrow-right"></i>
+        </button>
+      </form>
+
+    </header>
+
+    <!-- Main content -->
+    <main class="main-content">
+
+      <!-- Location and date -->
+      <section class="location-section" aria-label="Selected location">
+
+        <div class="location-info">
+          <h1>
+            <i data-lucide="map-pin"></i>
+            <span id="city-name">Toronto, Ontario</span>
+          </h1>
+
+          <p id="current-date">Loading weather...</p>
+        </div>
+
+        <span class="live-label">
+          <span class="live-dot"></span>
+          Live Weather
+        </span>
+
+      </section>
+
+      <!-- Interactive weather settings -->
+      <section class="settings-bar" aria-label="Weather settings">
+
+        <div class="unit-switch" aria-label="Temperature units">
+
+          <button id="celsius-btn" class="unit-btn active" type="button" aria-pressed="true">
+            °C
+          </button>
+
+          <button id="fahrenheit-btn" class="unit-btn" type="button" aria-pressed="false">
+            °F
+          </button>
+
+        </div>
+
+        <div class="forecast-setting">
+          <label for="forecast-days">Forecast:</label>
+
+          <select id="forecast-days">
+            <option value="1">1 Day</option>
+            <option value="3">3 Days</option>
+            <option value="5" selected>5 Days</option>
+          </select>
+        </div>
+
+      </section>
+
+      <!-- API loading and error messages -->
+      <p id="status-message" class="status-message" role="status"></p>
+      <p id="error-message" class="error-message" role="alert"></p>
+
+      <!-- Current weather section -->
+      <section class="weather-grid" id="current">
+
+        <!-- Main weather card -->
+        <article class="glass-card current-card">
+
+          <div class="card-heading">
+            <h2>Current Weather</h2>
+            <span>Right now</span>
+          </div>
+
+          <div class="current-content">
+
+            <div class="current-details">
+
+              <div class="temperature">
+                <span id="temperature">--</span>
+                <span id="temperature-unit">°C</span>
+              </div>
+
+              <h3 id="condition">Loading...</h3>
+
+              <p class="feels-like">
+                Feels like
+                <span id="feels-like">--</span><span class="temp-unit">°C</span>
+              </p>
+
+            </div>
+
+            <img id="weather-icon" class="weather-icon" alt="" width="128" height="128">
+
+          </div>
+
+          <div class="temperature-range">
+
+            <span>
+              <i data-lucide="arrow-up"></i>
+              H:
+              <span id="max-temp">--</span><span class="temp-unit">°C</span>
+            </span>
+
+            <span>
+              <i data-lucide="arrow-down"></i>
+              L:
+              <span id="min-temp">--</span><span class="temp-unit">°C</span>
+            </span>
+
+          </div>
+
+        </article>
+
+        <!-- Weather metrics -->
+        <div class="details-grid">
+
+          <article class="glass-card detail-card">
+            <i data-lucide="droplets"></i>
+
+            <div>
+              <p>Humidity</p>
+              <h3 id="humidity">--%</h3>
+            </div>
+          </article>
+
+          <article class="glass-card detail-card">
+            <i data-lucide="wind"></i>
+
+            <div>
+              <p>Wind</p>
+              <h3 id="wind">-- km/h</h3>
+              <span id="wind-direction">--</span>
+            </div>
+          </article>
+
+          <article class="glass-card detail-card">
+            <i data-lucide="eye"></i>
+
+            <div>
+              <p>Visibility</p>
+              <h3 id="visibility">-- km</h3>
+            </div>
+          </article>
+
+          <article class="glass-card detail-card">
+            <i data-lucide="sun"></i>
+
+            <div>
+              <p>UV Index</p>
+              <h3 id="uv-index">--</h3>
+            </div>
+          </article>
+
+        </div>
+
+      </section>
+
+      <!-- Hourly forecast -->
+      <section class="glass-card forecast-section" id="hourly">
+
+        <div class="section-heading">
+          <h2>Hourly Forecast</h2>
+          <i data-lucide="clock"></i>
+        </div>
+
+        <div class="hourly-container" id="hourly-container">
+          <p>Loading hourly forecast...</p>
+        </div>
+
+      </section>
+
+      <!-- Daily forecast -->
+      <section class="glass-card forecast-section" id="forecast">
+
+        <div class="section-heading">
+          <h2 id="forecast-title">5-Day Forecast</h2>
+          <i data-lucide="calendar-days"></i>
+        </div>
+
+        <div class="daily-container" id="daily-container">
+          <p>Loading daily forecast...</p>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <p>© 2026 DailyWeather · Powered by WeatherAPI</p>
+    </footer>
+
+  </div>
+
+  <!-- Main JavaScript -->
+  <script src="/assets/js/main.js" defer></script>
+
+</body>
+
+</html>
